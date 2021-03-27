@@ -35,3 +35,10 @@ RUN apt-get install -y google-chrome-stable
 RUN rm -rf /var/lib/apt/lists/*
 RUN wget --quiet https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -O /usr/sbin/wait-for-it.sh
 RUN chmod +x /usr/sbin/wait-for-it.sh
+
+# Install Python
+RUN python3.9 -m venv ~/.venv
+RUN . ~/.venv/bin/activate
+RUN pip3 install pytest pytest-cov pylint pylint_quotes yapf unify docformatter mypy data-science-types python-semantic-release
+
+CMD . ~/.venv/bin/activate
