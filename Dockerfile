@@ -1,5 +1,5 @@
 FROM debian:latest
-WORKDIR ~
+WORKDIR /root
 RUN apt update -y
 RUN apt install -y wget curl
 RUN apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libsqlite3-dev libreadline-dev libffi-dev libbz2-dev
@@ -11,7 +11,7 @@ RUN ./configure --enable-optimizations
 RUN make -j 4
 RUN make altinstall
 RUN python3.9 -m pip install --upgrade pip
-WORKDIR ~
+WORKDIR /root
 RUN rm -rf Python-3.9.2
 RUN apt install -y nodejs npm
 RUN apt install -y chromium chromium-driver
@@ -40,9 +40,9 @@ RUN chmod +x /usr/sbin/wait-for-it.sh
 RUN npm install -g cypress --unsafe-perm --silent
 
 # Install Python
-RUN python3.9 -m venv ~/.venv
-RUN . ~/.venv/bin/activate
+RUN python3.9 -m venv /root/.venv
+RUN . /root/.venv/bin/activate
 RUN pip3 install pytest pytest-cov pylint pylint_quotes yapf unify docformatter mypy data-science-types python-semantic-release poetry
-RUN poetry config virtualenvs.path ~/.venv
+RUN poetry config virtualenvs.path /root/.venv/
 
-CMD poetry shell
+CMD . /root/.venv/bin/activate
